@@ -55,6 +55,7 @@
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("===== Scaling Options =====");
             Console.ForegroundColor = ConsoleColor.White;
+            recipe.Scale();
         }
         else if (menu.Equals("5"))
         {

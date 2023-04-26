@@ -179,5 +179,47 @@ public class Recipe
         
         }
 
+    public void Scale()
+    {
+        Console.WriteLine("Input 1 OR 2 \n(1)Scale Ingredients\n(2)Reset Scale \nAny Key to Exit");
+
+        Console.ForegroundColor = ConsoleColor.Blue;
+        string input = Console.ReadLine();
+        Console.ForegroundColor = ConsoleColor.White;
+
+        double scale;
+        if (double.TryParse(input, out scale))
+        {
+            if (scale == 1)
+            {
+                Console.WriteLine("Input Scaling Factor \t\t");
+                Console.ForegroundColor = ConsoleColor.Blue;
+                string scaleFactorInput = Console.ReadLine();
+                Console.ForegroundColor = ConsoleColor.White;
+
+                if (double.TryParse(scaleFactorInput, out double scaleFactor))
+                {
+                   Console.WriteLine (displayRecipe(scaleFactor));
+                }
+                else
+                {
+                    Console.WriteLine("Invalid scaling factor input.");
+                }
+            }
+            else if (scale == 2)
+            {
+                double reset = 1.0;
+                displayRecipe(reset);
+            }
+            else
+            {
+                Console.WriteLine("Invalid input.");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Invalid input.");
+        }
+    }
 
 }
