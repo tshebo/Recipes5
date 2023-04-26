@@ -184,13 +184,12 @@ public class Recipe
         Console.WriteLine("Input 1 OR 2 \n(1)Scale Ingredients\n(2)Reset Scale \nAny Key to Exit");
 
         Console.ForegroundColor = ConsoleColor.Blue;
-        string input = Console.ReadLine();
-        Console.ForegroundColor = ConsoleColor.White;
 
-        double scale;
-        if (double.TryParse(input, out scale))
+        double choice;
+        if (double.TryParse(Console.ReadLine(), out choice))
         {
-            if (scale == 1)
+            Console.ForegroundColor = ConsoleColor.White;
+            if (choice == 1)
             {
                 Console.WriteLine("Input Scaling Factor \t\t");
                 Console.ForegroundColor = ConsoleColor.Blue;
@@ -199,14 +198,15 @@ public class Recipe
 
                 if (double.TryParse(scaleFactorInput, out double scaleFactor))
                 {
-                   Console.WriteLine (displayRecipe(scaleFactor));
+                    ScaleFactor = scaleFactor;
+                    Console.WriteLine(displayRecipe(scaleFactor));
                 }
                 else
                 {
                     Console.WriteLine("Invalid scaling factor input.");
                 }
             }
-            else if (scale == 2)
+            else if (choice == 2)
             {
                 double reset = 1.0;
                 displayRecipe(reset);
@@ -221,5 +221,17 @@ public class Recipe
             Console.WriteLine("Invalid input.");
         }
     }
+
+    
+        public void Clear()
+        {
+            this.IngredientNames = null;
+        this.IngredientAmount = 0;
+            this.StepAmount = 0; ;
+            this.Ingredients.Clear();
+            this.Steps.Clear();
+        }
+    
+
 
 }
