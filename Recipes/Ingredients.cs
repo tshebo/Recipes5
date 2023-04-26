@@ -150,10 +150,7 @@ public class Recipe
             return "";
         }
         
-          
-        
-
-        // Check if t-here are any ingredients
+        // Check if there are any ingredients
         if (IngredientNames == null || IngredientNames.Length == 0)
             {
                 display += "Error: No ingredients found for this recipe.\n";
@@ -176,14 +173,11 @@ public class Recipe
             {
                 display += $"{i + 1}. {StepDescriptions[i]}\n";
             }
-            //Console.WriteLine(display);
-        
-      
-
-
-
+ 
 
         return display;
         
         }
+
+
 }
