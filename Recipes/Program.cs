@@ -62,6 +62,7 @@
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("===== Clear Data =====");
             Console.ForegroundColor = ConsoleColor.White;
+            recipe.Clear();
         }
         else{
             Exit();

@@ -153,8 +153,10 @@ public class Recipe
         // Check if there are any ingredients
         if (IngredientNames == null || IngredientNames.Length == 0)
             {
-                display += "Error: No ingredients found for this recipe.\n";
-                return display;
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            display += "Error: No ingredients found for this recipe.\n";
+            Console.ForegroundColor = ConsoleColor.White;
+            return display;
             }
 
             // Display recipe name
@@ -181,7 +183,7 @@ public class Recipe
 
     public void Scale()
     {
-        Console.WriteLine("Input 1 OR 2 \n(1)Scale Ingredients\n(2)Reset Scale \nAny Key to Exit");
+       /* Console.WriteLine("Input 1 OR 2 \n(1)Scale Ingredients\n(2)Reset Scale \nAny Key to Exit");
 
         Console.ForegroundColor = ConsoleColor.Blue;
 
@@ -219,18 +221,35 @@ public class Recipe
         else
         {
             Console.WriteLine("Invalid input.");
-        }
+        }*/
     }
 
     
-        public void Clear()
+    public void Clear()
         {
-            this.IngredientNames = null;
-        this.IngredientAmount = 0;
-            this.StepAmount = 0; ;
-            this.Ingredients.Clear();
-            this.Steps.Clear();
+        
+        Console.ForegroundColor= ConsoleColor.Red;
+        Console.WriteLine("To Confirm Clearing Press Y\n Press any Key to Cancel");
+        string confirm = Console.ReadLine();
+
+        if (confirm.Equals("Y"))
+        {
+
+            this.IngredientAmount = 0;
+            this.StepAmount = 0;
+            this.recipeName = null;
+            
+            Console.ForegroundColor= ConsoleColor.Green;
+            Console.WriteLine("Data has been Cleared");
         }
+        else
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Clearing Aborted");
+        }
+
+        Console.ForegroundColor = ConsoleColor.White;
+     }
     
 
 
