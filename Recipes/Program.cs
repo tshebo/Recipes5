@@ -48,6 +48,7 @@
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("===== Display Recipe =====");
             Console.ForegroundColor = ConsoleColor.White;
+            recipe.displayRecipe();
         }
         else if (menu.Equals("4"))
         {

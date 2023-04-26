@@ -133,4 +133,57 @@ public class Recipe
         }
 
     }
+   
+        //Display Recipe
+        public string displayRecipe(double scaleFactor = 1)
+        {
+        
+            Console.ForegroundColor = ConsoleColor.Yellow;
+
+            string display = "";
+
+         if(IngredientAmount <=0) {
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine("There is nothing to display");
+            Console.ForegroundColor = ConsoleColor.White;
+
+            return "";
+        }
+        
+          
+        
+
+        // Check if t-here are any ingredients
+        if (IngredientNames == null || IngredientNames.Length == 0)
+            {
+                display += "Error: No ingredients found for this recipe.\n";
+                return display;
+            }
+
+            // Display recipe name
+            display += $"Name: {RecipeName}\n\n";
+
+            // Display ingredients
+            display += "Ingredients:\n";
+            for (int i = 0; i < IngredientAmount; i++)
+            {
+                display += $"{scaleFactor * IngredientQuantity[i]} {IngredientUnits[i]} {IngredientNames[i]}\n";
+            }
+
+            // Display steps
+            display += "\nSteps:\n";
+            for (int i = 0; i < StepAmount; i++)
+            {
+                display += $"{i + 1}. {StepDescriptions[i]}\n";
+            }
+            //Console.WriteLine(display);
+        
+      
+
+
+
+
+        return display;
+        
+        }
 }
