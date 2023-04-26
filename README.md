@@ -1,4 +1,4 @@
-#recipe-app
+#recipe-app  Link : https://github.com/tshebo/Recipes5
 Course project: Console-based recipe application
 
 #Recipe App
@@ -21,3 +21,6 @@ Follow the prompts to input the recipe ingredients and steps.
 Optionally, scale the recipe by specifying a scaling factor when prompted.
 
 The app will display the recipe with the ingredients and steps.
+
+
+ 
