@@ -100,7 +100,7 @@ public class Recipe
             // Prompt for number of steps
             Console.ForegroundColor = ConsoleColor.White;
 
-            int amount;
+             
             Console.Write("How many steps would you like to add? ");
             Console.ForegroundColor = ConsoleColor.Blue;
             while (!int.TryParse(Console.ReadLine(), out stepAmount) || stepAmount <= 0)
@@ -183,45 +183,70 @@ public class Recipe
 
     public void Scale()
     {
-       /* Console.WriteLine("Input 1 OR 2 \n(1)Scale Ingredients\n(2)Reset Scale \nAny Key to Exit");
+        
+        
+         Console.WriteLine("Input 1 OR 2 \n(1)Scale Ingredients\n(2)Reset Scale \nAny Key to Exit");
 
-        Console.ForegroundColor = ConsoleColor.Blue;
+         Console.ForegroundColor = ConsoleColor.Blue;
 
-        double choice;
-        if (double.TryParse(Console.ReadLine(), out choice))
-        {
-            Console.ForegroundColor = ConsoleColor.White;
-            if (choice == 1)
-            {
-                Console.WriteLine("Input Scaling Factor \t\t");
-                Console.ForegroundColor = ConsoleColor.Blue;
-                string scaleFactorInput = Console.ReadLine();
-                Console.ForegroundColor = ConsoleColor.White;
+         double choice;
+         if (double.TryParse(Console.ReadLine(), out choice))
+         {
+             Console.ForegroundColor = ConsoleColor.White;
+             if (choice == 1)
+             {
+                
+                string input = "";
+                 
+                double scale;
+                // Ask user for scaling factor
 
-                if (double.TryParse(scaleFactorInput, out double scaleFactor))
+                Console.Write("Enter the scaling amount or press 'N' to cancel");
+
+                input = Console.ReadLine();
+
+                //Assign the input to the scaleFactor variable
+                if (input.ToUpper().Equals("N"))
                 {
-                    ScaleFactor = scaleFactor;
-                    Console.WriteLine(displayRecipe(scaleFactor));
+                    //Dont Scale
+                    Console.WriteLine(displayRecipe());
+                    
+                }
+                else if (double.TryParse(input, out scale))
+                {
+                    //Scale the recipe according to the user input
+                    this.scaleFactor = scale;
+                    Console.WriteLine(displayRecipe(this.scaleFactor));
+
+                   
                 }
                 else
                 {
-                    Console.WriteLine("Invalid scaling factor input.");
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    //error message
+                    Console.WriteLine("Enter a Valid Input!!");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    
                 }
             }
-            else if (choice == 2)
-            {
-                double reset = 1.0;
-                displayRecipe(reset);
-            }
-            else
-            {
+             else if (choice == 2)
+             {
+                 double reset = 1.0;
+                 displayRecipe(reset);
+             }
+             else
+             {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.WriteLine("Invalid input.");
+                Console.ForegroundColor = ConsoleColor.White;
             }
-        }
-        else
-        {
+         }
+         else
+         {
+            Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("Invalid input.");
-        }*/
+            Console.ForegroundColor = ConsoleColor.White;
+        }
     }
 
     
