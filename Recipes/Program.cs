@@ -34,13 +34,14 @@
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("===== Add Ingredients =====");
             Console.ForegroundColor = ConsoleColor.White;
-            recipe.getIngredients();
+            recipe.addIngredients();
         }
         else if(menu.Equals("2"))
         {
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("===== Add Steps =====");
             Console.ForegroundColor = ConsoleColor.White;
+            recipe.addSteps();
         }
         else if (menu.Equals("3"))
         {

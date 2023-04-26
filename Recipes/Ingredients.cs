@@ -13,7 +13,7 @@ public class Recipe
     private double scaleFactor;
 
     // Constructor
-    public Recipe(int ingredientAmount =1)
+    public Recipe(int ingredientAmount =0)
     {
         this.ingredientAmount = ingredientAmount;
         this.ingredientNames = new string[ingredientAmount];
@@ -31,7 +31,7 @@ public class Recipe
     public string RecipeName { get => recipeName; set => recipeName = value; }
     public double ScaleFactor { get => scaleFactor; set => scaleFactor = value; }
 
-    public void getIngredients()
+    public void addIngredients()
     {
         // Prompt for recipe name
         Console.Write("Enter recipe name: \t\t\t\t");
@@ -89,5 +89,48 @@ public class Recipe
             IngredientUnits[i] = Console.ReadLine();
 
         }
+
+       
+    }
+    public void addSteps()
+    {
+        if (ingredientAmount > 0)
+        {
+            Console.WriteLine("===== Input Steps =====");
+            // Prompt for number of steps
+            Console.ForegroundColor = ConsoleColor.White;
+
+            int amount;
+            Console.Write("How many steps would you like to add? ");
+            Console.ForegroundColor = ConsoleColor.Blue;
+            while (!int.TryParse(Console.ReadLine(), out stepAmount) || stepAmount <= 0)
+            {
+
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("Invalid input. Please enter a positive integer.!!!");
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write("How many steps would you like to add? ");
+            }
+            StepAmount = stepAmount;
+            Console.ForegroundColor = ConsoleColor.White;
+            // Initialize array
+            StepDescriptions = new string[StepAmount];
+
+            // Store steps
+            for (int i = 0; i < StepAmount; i++)
+            {
+                Console.Write($"Step {i + 1}: ");
+                Console.ForegroundColor = ConsoleColor.Blue;
+                StepDescriptions[i] = Console.ReadLine();
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+        }
+        else
+        {
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine("You can't add steps without Ingredients!!!");
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+
     }
 }
