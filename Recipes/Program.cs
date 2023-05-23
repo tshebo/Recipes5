@@ -35,7 +35,7 @@
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("===== Add Ingredients =====");
             Console.ForegroundColor = ConsoleColor.White;
-            recipe.addIngredients();
+            recipe.AddIngredients();
         }
         else if (menu.Equals("2"))
         {
