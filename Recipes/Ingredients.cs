@@ -1,22 +1,45 @@
 ﻿using System.ComponentModel;
+using System.Diagnostics.Metrics;
+using System.Security.Cryptography.X509Certificates;
+using System.Text.RegularExpressions;
 
 public class Recipe
 {
-    // Fields
-    private string recipeName;
+    /*Fields
 
-    private int ingredientAmount;
+  /* private int ingredientAmount;
     private string[] ingredientNames;
     private double[] ingredientQuantity;
     private string[] ingredientUnits;
     private int stepAmount;
     private string[] stepDescriptions;
-    private double scaleFactor;
+    private double scaleFactor;*/
 
     //new fields
-    public List<string> Recipes { get; set };
+    private string recipeName;
 
-    // Constructor
+    private List<string> recipes;
+    private List<string> names;
+    private List<string> ingredients;
+    private List<string> units;
+    private List<double> quatities;
+    private List<double> calories;
+    private List<string> steps;
+    private List<string> groups;
+    private Dictionary<string, List<string>> singleRecipe;
+
+    public string RecipeName { get => recipeName; set => recipeName = value; }
+    public List<string> Recipes { get => recipes; set => recipes = value; }
+    public List<string> Names { get => names; set => names = value; }
+    public List<string> Ingredients { get => ingredients; set => ingredients = value; }
+    public List<string> Units { get => units; set => units = value; }
+    public List<double> Quatities { get => quatities; set => quatities = value; }
+    public List<double> Calories { get => calories; set => calories = value; }
+    public List<string> Steps { get => steps; set => steps = value; }
+    public List<string> Groups { get => groups; set => groups = value; }
+    public Dictionary<string, List<string>> SingleRecipe { get => singleRecipe; set => singleRecipe = value; }
+
+    /*
     public Recipe(int ingredientAmount = 0)
     {
         this.ingredientAmount = ingredientAmount;
@@ -26,73 +49,107 @@ public class Recipe
     }
 
     // Properties
-    public int IngredientAmount { get => ingredientAmount; set => ingredientAmount = value; }
+   public int IngredientAmount { get => ingredientAmount; set => ingredientAmount = value; }
 
     public string[] IngredientNames { get => ingredientNames; set => ingredientNames = value; }
     public double[] IngredientQuantity { get => ingredientQuantity; set => ingredientQuantity = value; }
     public string[] IngredientUnits { get => ingredientUnits; set => ingredientUnits = value; }
     public int StepAmount { get => stepAmount; set => stepAmount = value; }
     public string[] StepDescriptions { get => stepDescriptions; set => stepDescriptions = value; }
-    public string RecipeName { get => recipeName; set => recipeName = value; }
+
     public double ScaleFactor { get => scaleFactor; set => scaleFactor = value; }
+   */
 
     public void addIngredients()
     {
+        // variables
+        int i = 0;
+        bool loop = true;
+        string amount = "";
+        double amount1 = 0;
+        //intialize my lists
+        Names = new List<string>();
+
         // Prompt for recipe name
         Console.Write("Enter recipe name: \t\t\t\t");
         Console.ForegroundColor = ConsoleColor.Blue;
-        RecipeName = Console.ReadLine();
+        Names.Add(Console.ReadLine());
         Console.ForegroundColor = ConsoleColor.White;
 
-        // Prompt for number of ingredients
-
-        Console.Write("How many ingredients would you like to add? \t");
-        Console.ForegroundColor = ConsoleColor.Blue;
-        while (!int.TryParse(Console.ReadLine(), out ingredientAmount) || ingredientAmount <= 0)
-        {
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine("Invalid input. Please enter a positive integer.");
-            Console.ForegroundColor = ConsoleColor.White;
-
-            Console.Write("How many ingredients would you like to add? \t");
-            Console.ForegroundColor = ConsoleColor.Blue;
-        }
-        IngredientAmount = ingredientAmount;
-
-        // Initialize arrays
-        IngredientNames = new string[IngredientAmount];
-        IngredientQuantity = new double[IngredientAmount];
-        IngredientUnits = new string[IngredientAmount];
-
-        // Store ingredients
-        for (int i = 0; i < IngredientAmount; i++)
-        {
+        while (loop) //UNLIMITED AMOUNT OF INGREDIENTS
+        { //Ingredients
             Console.WriteLine($"==== Ingredient {i + 1} ====");
             Console.ForegroundColor = ConsoleColor.White;
-            Console.Write($"Name of ingredient {i + 1}: \t\t\t\t");
+            Console.Write($"Name of ingredient {i + 1}: \t\t\t\t");     //Name
             Console.ForegroundColor = ConsoleColor.Blue;
-            IngredientNames[i] = Console.ReadLine();
+            string name = Console.ReadLine();
             Console.ForegroundColor = ConsoleColor.White;
 
-            double quantity;
-            Console.Write($"Amount of {IngredientNames[i]}(s): \t\t\t\t");
-            Console.ForegroundColor = ConsoleColor.Blue;
-            while (!double.TryParse(Console.ReadLine(), out quantity) || quantity <= 0)
+            do
             {
-                Console.ForegroundColor = ConsoleColor.White;
-                Console.ForegroundColor = ConsoleColor.DarkRed;
-                Console.WriteLine("Invalid input. Please enter a positive number.");
-                Console.ForegroundColor = ConsoleColor.White;
-                Console.Write($"Amount of {IngredientNames[i]}(s):\t\t\t\t ");
+                Console.Write($"Amount of {name}(s): \t\t\t\t");      //Amount
                 Console.ForegroundColor = ConsoleColor.Blue;
-            }
-            IngredientQuantity[i] = quantity;
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.Write($"Unit of measurement for {IngredientNames[i]}(s):\t\t");
+                amount = Console.ReadLine();
+                Console.ForegroundColor = ConsoleColor.White;
+
+                if (!double.TryParse(amount, out amount1))
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Invalid input. Please enter a number.");
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+            } while (!double.TryParse(amount, out amount1));
+
+            Groups.Add(foodGrp());                                          //Food Group
+
+            Console.Write("Press 'N' to stop or any other key to continue: "); //break out of the loop
             Console.ForegroundColor = ConsoleColor.Blue;
-            IngredientUnits[i] = Console.ReadLine();
+            if (Console.ReadKey(true).Key == ConsoleKey.N)
+            {
+                loop = false;
+            }
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine();
+
+            i++;
         }
+    }
+
+    public string foodGrp()
+    {
+        string[] grps = new string[7] { "Starchy", "Fruits and Veg", "Dry beans, peas, lentils and soya", "Meat / Chicken/ Fish", "Milk and dairy products", "Fats and oils", "Water" };
+
+        bool isValidInput = false;
+        int groupIndex = 0;
+        string output = "";
+
+        while (!isValidInput)  //checks for errors and reprompts
+        {
+            Console.WriteLine("Food group:");   //dispaly the grps array
+            for (int i = 0; i < grps.Length; i++)
+            {
+                Console.WriteLine($"({i + 1}) {grps[i]}");
+            }
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            string input = Console.ReadLine();
+            Console.ForegroundColor = ConsoleColor.White;
+
+            isValidInput = int.TryParse(input, out groupIndex); //store the input accordingly
+
+            if (!isValidInput || groupIndex < 1 || groupIndex > grps.Length)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Invalid input. Please enter a number corresponding to the food group.");
+                Console.ForegroundColor = ConsoleColor.White;
+                isValidInput = false;
+            }
+        }
+
+        output = grps[groupIndex - 1];
+        // Groups.Add(grps[groupIndex - 1]);
+
+        return output;
     }
 
     /* public void addSteps()
