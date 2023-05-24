@@ -13,7 +13,7 @@ public class Recipe
     private List<double> calories;
     private List<string> steps;
     private List<string> groups;
-    private Dictionary<string, List<string>> singleRecipe;
+    private Dictionary<string, object> singleRecipe;
 
     // Properties
     public string RecipeName { get => recipeName; set => recipeName = value; }
@@ -25,7 +25,7 @@ public class Recipe
     public List<double> Calories { get => calories; set => calories = value; }
     public List<string> Steps { get => steps; set => steps = value; }
     public List<string> Groups { get => groups; set => groups = value; }
-    public Dictionary<string, List<string>> SingleRecipe { get => singleRecipe; set => singleRecipe = value; }
+    public Dictionary<string, object> SingleRecipe { get => singleRecipe; set => singleRecipe = value; }
 
     public void AddIngredients()
     {
@@ -103,6 +103,7 @@ public class Recipe
             } while (!validCalories);
 
             // Food Group
+            FoodGroup();
             Console.Write("Press 'N' to stop or any other key to continue: ");
             Console.ForegroundColor = ConsoleColor.Blue;
             if (Console.ReadKey(true).Key == ConsoleKey.N)
