@@ -35,11 +35,12 @@ public class Recipe
         Units = new List<string>();
         Quantities = new List<double>();
         Calories = new List<double>();
+        Groups = new List<string>();
 
         // Prompt for recipe name
-        Console.Write("Enter recipe name: ");
+        Console.Write("Enter recipe name: \t\t");
         Console.ForegroundColor = ConsoleColor.Blue;
-        Names.Add(Console.ReadLine());
+        recipeName = Console.ReadLine();
         Console.ForegroundColor = ConsoleColor.White;
 
         bool loop = true;
@@ -50,25 +51,25 @@ public class Recipe
             // Ingredient
             Console.WriteLine($"==== Ingredient {i + 1} ====");
             Console.ForegroundColor = ConsoleColor.White;
-            Console.Write($"Name of ingredient {i + 1}: ");
+            Console.Write($"Name of ingredient {i + 1}: \t\t");
             Console.ForegroundColor = ConsoleColor.Blue;
             string name = Console.ReadLine();
             Console.ForegroundColor = ConsoleColor.White;
             Ingredients.Add(name);
 
-            // Amount
+            // Quantity
             double amount;
             bool validAmount = false;
             do
             {
-                Console.Write($"Amount of {name}(s): ");
+                Console.Write($"Amount of {name}(s): \t\t");
                 Console.ForegroundColor = ConsoleColor.Blue;
                 string input = Console.ReadLine();
                 Console.ForegroundColor = ConsoleColor.White;
 
                 if (!double.TryParse(input, out amount))
                 {
-                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
                     Console.WriteLine("Invalid input. Please enter a number.");
                     Console.ForegroundColor = ConsoleColor.White;
                 }
@@ -79,19 +80,26 @@ public class Recipe
                 }
             } while (!validAmount);
 
+            //units
+            string unit;
+            Console.Write($"Unit of measurement for {name}(s):\t");
+            Console.ForegroundColor = ConsoleColor.Blue;
+            unit = Console.ReadLine();
+            Console.ForegroundColor = ConsoleColor.White;
+
             // Calories
             double calories;
             bool validCalories = false;
             do
             {
-                Console.Write("Amount of calories: ");
+                Console.Write("Amount of calories: \t\t");
                 Console.ForegroundColor = ConsoleColor.Blue;
                 string input = Console.ReadLine();
                 Console.ForegroundColor = ConsoleColor.White;
 
                 if (!double.TryParse(input, out calories))
                 {
-                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
                     Console.WriteLine("Invalid input. Please enter a number.");
                     Console.ForegroundColor = ConsoleColor.White;
                 }
@@ -103,11 +111,24 @@ public class Recipe
             } while (!validCalories);
 
             // Food Group
-            FoodGroup();
-            Console.Write("Press 'N' to stop or any other key to continue: ");
+            string group = FoodGroup();
+
+            //User chooses to continue or stop the procedure
+            Console.Write("Press 'N' to stop adding or any other key to continue: \n");
             Console.ForegroundColor = ConsoleColor.Blue;
             if (Console.ReadKey(true).Key == ConsoleKey.N)
             {
+                //Store the details in their lists
+                Names.Add(recipeName);
+                Ingredients.Add(name);
+                Units.Add(unit);
+                Quantities.Add(amount);
+                Calories.Add(calories);
+                Groups.Add(group);
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write("Recipe was captured \n");
+                Console.ForegroundColor = ConsoleColor.White;
+
                 loop = false;
             }
             Console.ForegroundColor = ConsoleColor.White;
@@ -149,7 +170,7 @@ public class Recipe
 
             if (!isValidInput || groupIndex < 1 || groupIndex > groups.Length)
             {
-                Console.ForegroundColor = ConsoleColor.Red;
+                Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.WriteLine("Invalid input. Please enter a number corresponding to the food group.");
                 Console.ForegroundColor = ConsoleColor.White;
                 isValidInput = false;
@@ -159,4 +180,6 @@ public class Recipe
         output = groups[groupIndex - 1];
         return output;
     }
+
+    //storing my Inputs
 }
