@@ -2,6 +2,7 @@
 {
     private static bool loop = true;
     private static Recipe recipe = new Recipe();
+    public static string exit = "";
 
     private static void Main(string[] args)
     {
@@ -25,7 +26,8 @@
         Console.WriteLine("Any key to Exit");
 
         Console.ForegroundColor = ConsoleColor.Blue;
-        return Console.ReadLine();
+        exit = Console.ReadLine();
+        return exit;
     }
 
     public static void validateChoice(string menu)
@@ -67,7 +69,15 @@
         }
         else
         {
-            Exit();
+            string confirm = "";
+            Console.WriteLine($"Are you sure that you want to exit? Press {exit} again to confirm OR any other key to continue");
+            Console.ForegroundColor = ConsoleColor.Blue;
+            confirm = Console.ReadLine();
+            Console.ForegroundColor = ConsoleColor.White;
+            if (confirm.Equals(exit))
+            {
+                Exit();
+            }
         }
     }
 

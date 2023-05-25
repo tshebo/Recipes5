@@ -36,6 +36,7 @@ public class Recipe
         Quantities = new List<double>();
         Calories = new List<double>();
         Groups = new List<string>();
+        SingleRecipe = new Dictionary<string, object>();
 
         // Prompt for recipe name
         Console.Write("Enter recipe name: \t\t");
@@ -125,6 +126,16 @@ public class Recipe
                 Quantities.Add(amount);
                 Calories.Add(calories);
                 Groups.Add(group);
+
+                //store the lists in a dictionary
+                SingleRecipe.Add("Name", recipeName);
+                SingleRecipe.Add("Ingredients", Ingredients);
+                SingleRecipe.Add("Units", Units);
+                SingleRecipe.Add("Quantities", Quantities);
+                SingleRecipe.Add("Calories", Calories);
+                SingleRecipe.Add("Food Groups", Groups);
+
+                // Success Message
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.Write("Recipe was captured \n");
                 Console.ForegroundColor = ConsoleColor.White;
@@ -181,5 +192,46 @@ public class Recipe
         return output;
     }
 
-    //storing my Inputs
+    public int RecipeNames()
+    {
+        //variables
+        int index = 0;
+        do   //do while loop checks for errors and reprompts
+        {
+            if (Names.Count != 0)  //check if there are any recipes saved
+            {
+                Names.Sort(); //sort the names in alphabetical order
+
+                // Display the sorted list of recipe names
+                for (int x = 0; x < Names.Count; x++)
+                {
+                    Console.WriteLine($"{x + 1} {Names[x]}");
+                }
+                Console.WriteLine();
+
+                // Accept user input
+                Console.ForegroundColor = ConsoleColor.Blue;
+                string input = Console.ReadLine();
+                Console.ForegroundColor = ConsoleColor.White;
+                int.TryParse(input, out index);
+
+                //if there is a recipe then check if the user chose the correct option
+
+                if (!int.TryParse(input, out index) || index > Names.Count)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.WriteLine("Enter a valid input");
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine(" Please enter atleast 1 recipe");
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+        } while (index <= 0 || index > Names.Count);
+
+        return index - 1;
+    }
 }
