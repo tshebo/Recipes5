@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Xml.Linq;
 
 public class Recipe
 {
@@ -14,6 +16,8 @@ public class Recipe
     private List<string> steps;
     private List<string> groups;
     private Dictionary<string, object> singleRecipe;
+    private List<object> recipeCollection;
+    public int count;
 
     // Properties
     public string RecipeName { get => recipeName; set => recipeName = value; }
@@ -26,9 +30,12 @@ public class Recipe
     public List<string> Steps { get => steps; set => steps = value; }
     public List<string> Groups { get => groups; set => groups = value; }
     public Dictionary<string, object> SingleRecipe { get => singleRecipe; set => singleRecipe = value; }
+    public List<object> RecipeCollection { get => recipeCollection; set => recipeCollection = value; }
 
     public void AddIngredients()
     {
+        //count = 0;
+
         // Initialize lists
         Names = new List<string>();
         Ingredients = new List<string>();
@@ -37,12 +44,14 @@ public class Recipe
         Calories = new List<double>();
         Groups = new List<string>();
         SingleRecipe = new Dictionary<string, object>();
+        RecipeCollection = new List<object>();
 
         // Prompt for recipe name
         Console.Write("Enter recipe name: \t\t");
         Console.ForegroundColor = ConsoleColor.Blue;
         recipeName = Console.ReadLine();
         Console.ForegroundColor = ConsoleColor.White;
+        names.Add(recipeName);
 
         bool loop = true;
         int i = 0;
@@ -87,9 +96,10 @@ public class Recipe
             Console.ForegroundColor = ConsoleColor.Blue;
             unit = Console.ReadLine();
             Console.ForegroundColor = ConsoleColor.White;
+            units.Add(unit);
 
             // Calories
-            double calories;
+            double calory;
             bool validCalories = false;
             do
             {
@@ -98,7 +108,7 @@ public class Recipe
                 string input = Console.ReadLine();
                 Console.ForegroundColor = ConsoleColor.White;
 
-                if (!double.TryParse(input, out calories))
+                if (!double.TryParse(input, out calory))
                 {
                     Console.ForegroundColor = ConsoleColor.DarkRed;
                     Console.WriteLine("Invalid input. Please enter a number.");
@@ -107,38 +117,35 @@ public class Recipe
                 else
                 {
                     validCalories = true;
-                    Calories.Add(calories);
+                    calories.Add(calory);
                 }
             } while (!validCalories);
 
             // Food Group
             string group = FoodGroup();
+            groups.Add(group);
 
             //User chooses to continue or stop the procedure
             Console.Write("Press 'N' to stop adding or any other key to continue: \n");
             Console.ForegroundColor = ConsoleColor.Blue;
             if (Console.ReadKey(true).Key == ConsoleKey.N)
             {
-                //Store the details in their lists
-                Names.Add(recipeName);
-                Ingredients.Add(name);
-                Units.Add(unit);
-                Quantities.Add(amount);
-                Calories.Add(calories);
-                Groups.Add(group);
-
                 //store the lists in a dictionary
-                SingleRecipe.Add("Name", recipeName);
-                SingleRecipe.Add("Ingredients", Ingredients);
-                SingleRecipe.Add("Units", Units);
-                SingleRecipe.Add("Quantities", Quantities);
-                SingleRecipe.Add("Calories", Calories);
-                SingleRecipe.Add("Food Groups", Groups);
+                singleRecipe.Add("Name", recipeName);
+                singleRecipe.Add("Ingredients", ingredients);
+                singleRecipe.Add("Units", units);
+                singleRecipe.Add("Quantities", quantities);
+                singleRecipe.Add("Calories", Calories);
+                singleRecipe.Add("Food Groups", groups);
+
+                //Store Dictionary as a single recipe
+                recipeCollection.Add(singleRecipe);
 
                 // Success Message
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.Write("Recipe was captured \n");
                 Console.ForegroundColor = ConsoleColor.White;
+                count++;
 
                 loop = false;
             }
@@ -192,20 +199,22 @@ public class Recipe
         return output;
     }
 
-    public int RecipeNames()
+    public string RecipeNames()
     {
         //variables
         int index = 0;
-        do   //do while loop checks for errors and reprompts
+        string chosen = null;
+
+        if (count != 0)  //check if there are any recipes saved
         {
-            if (Names.Count != 0)  //check if there are any recipes saved
+            do   //do while loop checks for errors and reprompts
             {
-                Names.Sort(); //sort the names in alphabetical order
+                //Names.Sort(); //sort the names in alphabetical order
 
                 // Display the sorted list of recipe names
-                for (int x = 0; x < Names.Count; x++)
+                for (int x = 0; x < count; x++)
                 {
-                    Console.WriteLine($"{x + 1} {Names[x]}");
+                    Console.WriteLine($"({x + 1}) {Names[x]}");
                 }
                 Console.WriteLine();
 
@@ -215,7 +224,7 @@ public class Recipe
                 Console.ForegroundColor = ConsoleColor.White;
                 int.TryParse(input, out index);
 
-                //if there is a recipe then check if the user chose the correct option
+                //check if the user chose the correct option
 
                 if (!int.TryParse(input, out index) || index > Names.Count)
                 {
@@ -223,15 +232,61 @@ public class Recipe
                     Console.WriteLine("Enter a valid input");
                     Console.ForegroundColor = ConsoleColor.White;
                 }
-            }
-            else
-            {
-                Console.ForegroundColor = ConsoleColor.DarkRed;
-                Console.WriteLine(" Please enter atleast 1 recipe");
-                Console.ForegroundColor = ConsoleColor.White;
-            }
-        } while (index <= 0 || index > Names.Count);
+                else
+                {
+                    // i want this function to access the recipe dictionary and return a recipe name
+                    chosen = Names[index - 1];
+                }
+            } while (index <= 0 || index > Names.Count);
+        }
+        else
+        {
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine("Unable to proceed without Ingredients!!!");
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+        return chosen;
+    }
 
-        return index - 1;
+    public void AddSteps()
+    {
+        //variables
+        int i = 0;
+        string step = "";
+        string exit = "";
+        string choice = RecipeNames();
+        Steps = new List<string> { };
+
+        Console.WriteLine($"Adding steps for recipe {choice}");
+        do
+        {
+            // Get Steps
+            Console.Write($"Step {i + 1}: ");
+            Console.ForegroundColor = ConsoleColor.Blue;                                                        //st10038900
+            step = Console.ReadLine();
+            Console.ForegroundColor = ConsoleColor.White;
+            Steps.Add(step);
+
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            //User chooses to continue or stop the procedure
+            Console.Write("Press 'N' to stop adding or any other key to continue: \n");
+            Console.ForegroundColor = ConsoleColor.Blue;
+            if (Console.ReadKey(true).Key == ConsoleKey.N)
+            {
+                /// Retrieve the dictionary for the chosen recipe
+                foreach (object item in recipeCollection)
+                {
+                }
+
+                // Success Message
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write("Steps were captured \n");
+                Console.ForegroundColor = ConsoleColor.White;
+
+                ///loop = false;
+            }
+        } while (count > 0);
     }
 }
+
+//st10038900

@@ -2,7 +2,7 @@
 {
     private static bool loop = true;
     private static Recipe recipe = new Recipe();
-    public static string exit = "";
+    public static string menu;
 
     private static void Main(string[] args)
     {
@@ -26,8 +26,11 @@
         Console.WriteLine("Any key to Exit");
 
         Console.ForegroundColor = ConsoleColor.Blue;
-        exit = Console.ReadLine();
-        return exit;
+        menu = Console.ReadLine();
+        Console.ForegroundColor = ConsoleColor.White;
+
+        //menu = choice;
+        return menu;
     }
 
     public static void validateChoice(string menu)
@@ -44,7 +47,7 @@
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("===== Add Steps =====");
             Console.ForegroundColor = ConsoleColor.White;
-            // recipe.addSteps();
+            recipe.AddSteps();
         }
         else if (menu.Equals("3"))
         {
@@ -69,11 +72,14 @@
         }
         else
         {
-            string confirm = "";
-            Console.WriteLine($"Are you sure that you want to exit? Press {exit} again to confirm OR any other key to continue");
-            Console.ForegroundColor = ConsoleColor.Blue;
+            //variables
+            string confirm;
+            string exit = menu;
+            Console.WriteLine($"Are you sure that you want to exit? Press '{exit}' again to confirm OR any other key to continue");
+            Console.ForegroundColor = ConsoleColor.Red;
             confirm = Console.ReadLine();
             Console.ForegroundColor = ConsoleColor.White;
+
             if (confirm.Equals(exit))
             {
                 Exit();
@@ -84,7 +90,7 @@
     public static bool Exit()
     {
         Console.ForegroundColor = ConsoleColor.DarkRed;
-        Console.WriteLine("Exiting the recipe app.");
+        Console.WriteLine("Exiting the application.");
         Environment.Exit(0);
         loop = false;
         Console.ForegroundColor = ConsoleColor.White;
