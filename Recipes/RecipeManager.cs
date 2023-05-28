@@ -8,10 +8,14 @@ public class RecipeManager
 
     public Dictionary<string, Recipe> RecipeCollection { get => recipeCollection; set => recipeCollection = value; }
 
+    public RecipeManager()
+    {
+        RecipeCollection = new Dictionary<string, Recipe>();
+    }
+
     public void AddIngredients()
     {
         count = 0;
-        RecipeCollection = new Dictionary<string, Recipe>();
 
         // Prompt user to enter recipe name
         Console.Write("Enter recipe name: \t\t");
@@ -165,6 +169,7 @@ public class RecipeManager
         string chosen = null;
         bool validChoice = false;
 
+        Console.WriteLine("Choose a recipe:");
         if (count != 0)
         {
             do
@@ -176,7 +181,6 @@ public class RecipeManager
                     i++;
                 }
 
-                Console.WriteLine("Choose a recipe:");
                 string input = Console.ReadLine();
 
                 if (int.TryParse(input, out index))
@@ -212,33 +216,37 @@ public class RecipeManager
 
     public void AddSteps()
     {
-        string chosen = RecipeNames();
-
-        if (!string.IsNullOrEmpty(chosen))
         {
-            Console.WriteLine($"Adding steps for recipe {chosen}");
+            string chosen = RecipeNames();
 
-            // Retrieve the selected recipe object from the RecipeCollection
-            Recipe selectedRecipe = RecipeCollection[chosen];
-
-            int i = 0;
-            string step = "";
-            string exit = "";
-
-            do
+            if (!string.IsNullOrEmpty(chosen))
             {
-                Console.Write($"Step {i + 1}: ");
-                Console.ForegroundColor = ConsoleColor.Blue;
-                step = Console.ReadLine();
-                Console.ForegroundColor = ConsoleColor.White;
-                selectedRecipe.Steps.Add(step);
+                Console.WriteLine($"Adding steps for recipe {chosen}");
 
-                Console.ForegroundColor = ConsoleColor.DarkRed;
-                Console.Write("Press 'N' to stop adding or any other key to continue: \n");
-                Console.ForegroundColor = ConsoleColor.Blue;
-                exit = Console.ReadLine();
-                Console.ForegroundColor = ConsoleColor.White;
-            } while (exit.ToUpper() != "N");
+                // Retrieve the selected recipe object from the RecipeCollection
+                Recipe selectedRecipe = RecipeCollection[chosen];
+
+                int i = selectedRecipe.Steps.Count; // Start from the current step count
+                string step = "";
+                string exit = "";
+
+                do
+                {
+                    Console.Write($"Step {i + 1}: ");
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    step = Console.ReadLine();
+                    Console.ForegroundColor = ConsoleColor.White;
+                    selectedRecipe.Steps.Add(step);
+
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.Write("Press 'N' to stop adding or any other key to continue: \n");
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    exit = Console.ReadLine();
+                    Console.ForegroundColor = ConsoleColor.White;
+
+                    i++; // Increment the counter
+                } while (exit.ToUpper() != "N");
+            }
         }
     }
 }
