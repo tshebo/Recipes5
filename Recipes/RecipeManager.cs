@@ -166,17 +166,20 @@ public class RecipeManager
     public string RecipeNames()
     {
         int index = 0;
-        int i = 0;
         string chosen = null;
         bool validChoice = false;
 
         Console.WriteLine("Choose a recipe:");
-        if (count != 0)
+
+        // Sort the recipes by name in alphabetical order
+        var sortedRecipes = RecipeCollection.Values.OrderBy(recipe => recipe.Name);
+
+        if (sortedRecipes.Count() != 0)
         {
             do
             {
-                i = 0;
-                foreach (var recipe in RecipeCollection.Values)
+                int i = 0;
+                foreach (var recipe in sortedRecipes)
                 {
                     Console.WriteLine($"({i + 1}) {recipe.Name}");
                     i++;
@@ -188,7 +191,7 @@ public class RecipeManager
                 {
                     index--;
 
-                    if (index >= 0 && index < RecipeCollection.Count)
+                    if (index >= 0 && index < sortedRecipes.Count())
                     {
                         validChoice = true;
                         break;
@@ -209,7 +212,7 @@ public class RecipeManager
 
         if (validChoice)
         {
-            chosen = RecipeCollection.Values.ElementAt(index).Name;
+            chosen = sortedRecipes.ElementAt(index).Name;
         }
 
         return chosen;
@@ -332,7 +335,7 @@ public class RecipeManager
                         // Retrieve the chosen recipe from the RecipeCollection
                         Recipe recipe = RecipeCollection[chosenRecipe];
                         // Display the scaled recipe by calling the DisplayRecipe function with the scaling factor and recipe object
-                        Console.WriteLine(DisplayRecipe(scaleFactor, recipe));
+                        Console.WriteLine(DisplayRecipe(scaleFactor));
                     }
                     else
                     {
@@ -354,21 +357,13 @@ public class RecipeManager
                     // Retrieve the chosen recipe from the RecipeCollection
                     Recipe recipe = RecipeCollection[chosenRecipe];
                     // Display the recipe without scaling (reset scale) by calling the DisplayRecipe function with scaling factor 1.0 and recipe object
-                    Console.WriteLine(DisplayRecipe(1.0, recipe));
-                }
-                else
-                {
-                    Console.WriteLine("Invalid recipe choice.");
+                    Console.WriteLine(DisplayRecipe(1.0));
                 }
             }
             else
             {
                 Console.WriteLine("Invalid input.");
             }
-        }
-        else
-        {
-            Console.WriteLine("Invalid input.");
         }
     }
 }
