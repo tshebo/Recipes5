@@ -265,15 +265,13 @@ public class RecipeManager
     {
         string display = RecipeNames();
 
-        Console.WriteLine("");
-
         Console.ForegroundColor = ConsoleColor.Yellow;
 
         if (!string.IsNullOrEmpty(display))
         {
             Recipe recipe = RecipeCollection[display];
             // Display recipe name
-            display += $"Name: {recipe.Name}\n\n";
+            display += $"\n Name: {recipe.Name}\n\n";
 
             // Display ingredients and their calories
             display += "Ingredients:\n";
@@ -302,5 +300,75 @@ public class RecipeManager
         }
 
         return display;
+    }
+
+    public void Scale()
+    {
+        // Prompt the user to choose an option
+        Console.WriteLine("Input 1 OR 2 \n(1) Scale Ingredients\n(2) Reset Scale\nAny Key to Exit");
+
+        // Read the user's input
+        Console.ForegroundColor = ConsoleColor.Blue;
+        string input = Console.ReadLine();
+        Console.ForegroundColor = ConsoleColor.White;
+
+        double scale;
+        if (double.TryParse(input, out scale))
+        {
+            if (scale == 1)
+            {
+                // If the user chooses to scale the ingredients
+                Console.WriteLine("Input Scaling Factor: ");
+                Console.ForegroundColor = ConsoleColor.Blue;
+                string scaleFactorInput = Console.ReadLine();
+                Console.ForegroundColor = ConsoleColor.White;
+
+                if (double.TryParse(scaleFactorInput, out double scaleFactor))
+                {
+                    // Prompt the user to choose a recipe
+                    string chosenRecipe = RecipeNames();
+                    if (!string.IsNullOrEmpty(chosenRecipe))
+                    {
+                        // Retrieve the chosen recipe from the RecipeCollection
+                        Recipe recipe = RecipeCollection[chosenRecipe];
+                        // Display the scaled recipe by calling the DisplayRecipe function with the scaling factor and recipe object
+                        Console.WriteLine(DisplayRecipe(scaleFactor, recipe));
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid recipe choice.");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Invalid scaling factor input.");
+                }
+            }
+            else if (scale == 2)
+            {
+                // If the user chooses to reset the scale
+                // Prompt the user to choose a recipe
+                string chosenRecipe = RecipeNames();
+                if (!string.IsNullOrEmpty(chosenRecipe))
+                {
+                    // Retrieve the chosen recipe from the RecipeCollection
+                    Recipe recipe = RecipeCollection[chosenRecipe];
+                    // Display the recipe without scaling (reset scale) by calling the DisplayRecipe function with scaling factor 1.0 and recipe object
+                    Console.WriteLine(DisplayRecipe(1.0, recipe));
+                }
+                else
+                {
+                    Console.WriteLine("Invalid recipe choice.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Invalid input.");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Invalid input.");
+        }
     }
 }
