@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Xml.Linq;
 
 public class RecipeManager
 {
@@ -216,37 +217,90 @@ public class RecipeManager
 
     public void AddSteps()
     {
+        string chosen = RecipeNames();
+
+        if (!string.IsNullOrEmpty(chosen))
         {
-            string chosen = RecipeNames();
+            Console.WriteLine($"Adding steps for recipe {chosen}");
 
-            if (!string.IsNullOrEmpty(chosen))
+            // Retrieve the selected recipe object from the RecipeCollection
+            Recipe selectedRecipe = RecipeCollection[chosen];
+
+            int i = selectedRecipe.Steps.Count; // Start from the current step count
+            string step = "";
+            string exit = "";
+
+            do
             {
-                Console.WriteLine($"Adding steps for recipe {chosen}");
+                Console.Write($"Step {i + 1}: ");
+                Console.ForegroundColor = ConsoleColor.Blue;
+                step = Console.ReadLine();
+                Console.ForegroundColor = ConsoleColor.White;
+                selectedRecipe.Steps.Add(step);
 
-                // Retrieve the selected recipe object from the RecipeCollection
-                Recipe selectedRecipe = RecipeCollection[chosen];
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.Write("Press 'N' to stop adding or any other key to continue: \n");
+                Console.ForegroundColor = ConsoleColor.Blue;
+                exit = Console.ReadLine();
+                Console.ForegroundColor = ConsoleColor.White;
 
-                int i = selectedRecipe.Steps.Count; // Start from the current step count
-                string step = "";
-                string exit = "";
+                i++; // Increment the counter
+            } while (exit.ToUpper() != "N");
+        }
+    }
 
-                do
-                {
-                    Console.Write($"Step {i + 1}: ");
-                    Console.ForegroundColor = ConsoleColor.Blue;
-                    step = Console.ReadLine();
-                    Console.ForegroundColor = ConsoleColor.White;
-                    selectedRecipe.Steps.Add(step);
+    //calculate calories
+    public double CalculateTotalCalories()
+    {
+        double totalCalories = 0;
+        foreach (double calories in recipe.Calories)
+        {
+            totalCalories += calories;
+        }
+        return totalCalories;
+    }
 
-                    Console.ForegroundColor = ConsoleColor.DarkRed;
-                    Console.Write("Press 'N' to stop adding or any other key to continue: \n");
-                    Console.ForegroundColor = ConsoleColor.Blue;
-                    exit = Console.ReadLine();
-                    Console.ForegroundColor = ConsoleColor.White;
+    // Display Recipe
+    public string DisplayRecipe(double scaleFactor = 1)
+    {
+        string display = RecipeNames();
 
-                    i++; // Increment the counter
-                } while (exit.ToUpper() != "N");
+        Console.WriteLine("");
+
+        Console.ForegroundColor = ConsoleColor.Yellow;
+
+        if (!string.IsNullOrEmpty(display))
+        {
+            Recipe recipe = RecipeCollection[display];
+            // Display recipe name
+            display += $"Name: {recipe.Name}\n\n";
+
+            // Display ingredients and their calories
+            display += "Ingredients:\n";
+            for (int i = 0; i < recipe.Ingredients.Count; i++)
+            {
+                display += $"{scaleFactor * recipe.Quantities[i]} {recipe.Units[i]} {recipe.Ingredients[i]} - Calories: {recipe.Calories[i]}\n";
+            }
+
+            // Calculate and display total calories
+            double totalCalories = recipe.Calories.Sum();
+            display += $"\nTotal Calories: {totalCalories}\n";
+
+            // Display food groups
+            display += "\nFood Groups:\n";
+            for (int i = 0; i < recipe.Groups.Count; i++)
+            {
+                display += $"{i + 1}. {recipe.Groups[i]}\n";
+            }
+
+            // Display steps
+            display += "\nSteps:\n";
+            for (int i = 0; i < recipe.Steps.Count; i++)
+            {
+                display += $"{i + 1}. {recipe.Steps[i]}\n";
             }
         }
+
+        return display;
     }
 }

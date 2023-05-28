@@ -40,7 +40,7 @@ internal class Program
         if (menu.Equals("1"))
         {
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine("===== Add Ingredients =====");
+            Console.WriteLine("===== Add Recipe =====");
             Console.ForegroundColor = ConsoleColor.White;
             recipe.AddIngredients();
         }
@@ -56,7 +56,7 @@ internal class Program
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("===== Display Recipe =====");
             Console.ForegroundColor = ConsoleColor.White;
-            //Console.WriteLine(recipe.displayRecipe());
+            Console.WriteLine(recipe.DisplayRecipe());
         }
         else if (menu.Equals("4"))
         {
