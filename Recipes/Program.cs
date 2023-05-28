@@ -1,7 +1,9 @@
-﻿internal class Program
+﻿using System;
+
+internal class Program
 {
     private static bool loop = true;
-    private static Recipe recipe = new Recipe();
+    private static RecipeManager recipe = new RecipeManager();
     public static string menu;
 
     private static void Main(string[] args)
