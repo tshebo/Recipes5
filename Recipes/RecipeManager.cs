@@ -250,7 +250,7 @@ public class RecipeManager
     }
 
     //calculate calories
-    public double CalculateTotalCalories()
+    public double CalculateTotalCalories(Recipe recipe)
     {
         double totalCalories = 0;
         foreach (double calories in recipe.Calories)
