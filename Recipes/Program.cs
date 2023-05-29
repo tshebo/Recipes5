@@ -20,7 +20,7 @@ internal class Program
         Console.WriteLine("===== Welcome to the recipe app choose between the provided options =====");
         Console.ForegroundColor = ConsoleColor.White;
         Console.WriteLine("\nEnter the number of the action you would like to perform");
-        Console.WriteLine("(1) Add ingredients");
+        Console.WriteLine("(1) Add Recipe");
         Console.WriteLine("(2) Add steps");
         Console.WriteLine("(3) Display recipe ");
         Console.WriteLine("(4) Scale Recipe");
@@ -39,6 +39,7 @@ internal class Program
     {
         if (menu.Equals("1"))
         {
+            // Add Recipe option
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("===== Add Recipe =====");
             Console.ForegroundColor = ConsoleColor.White;
@@ -46,6 +47,7 @@ internal class Program
         }
         else if (menu.Equals("2"))
         {
+            // Add Steps option
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("===== Add Steps =====");
             Console.ForegroundColor = ConsoleColor.White;
@@ -53,6 +55,7 @@ internal class Program
         }
         else if (menu.Equals("3"))
         {
+            // Display Recipe option
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("===== Display Recipe =====");
             Console.ForegroundColor = ConsoleColor.White;
@@ -60,6 +63,7 @@ internal class Program
         }
         else if (menu.Equals("4"))
         {
+            // Scaling Options option
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("===== Scaling Options =====");
             Console.ForegroundColor = ConsoleColor.White;
@@ -67,14 +71,15 @@ internal class Program
         }
         else if (menu.Equals("5"))
         {
+            // Clear Data option
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine("===== Clear Data =====");
+            Console.WriteLine("===== Delete Recipe =====");
             Console.ForegroundColor = ConsoleColor.White;
-            // recipe.Clear();
+            recipe.DeleteRecipe();
         }
         else
         {
-            //variables
+            // Confirm exit
             string confirm;
             string exit = menu;
             Console.WriteLine($"Are you sure that you want to exit? Press '{exit}' again to confirm OR any other key to continue");

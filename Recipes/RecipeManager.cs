@@ -9,6 +9,8 @@ public class RecipeManager
 
     public Dictionary<string, Recipe> RecipeCollection { get => recipeCollection; set => recipeCollection = value; }
 
+    public delegate void CalorieAlertDelegate(double totalCalories);
+
     public RecipeManager()
     {
         RecipeCollection = new Dictionary<string, Recipe>();
@@ -274,7 +276,7 @@ public class RecipeManager
         {
             Recipe recipe = RecipeCollection[display];
             // Display recipe name
-            display += $"\n Name: {recipe.Name}\n\n";
+            display += $"\nName: {recipe.Name}\n\n";
 
             // Display ingredients and their calories
             display += "Ingredients:\n";
@@ -298,10 +300,18 @@ public class RecipeManager
             display += "\nSteps:\n";
             for (int i = 0; i < recipe.Steps.Count; i++)
             {
-                display += $"{i + 1}. {recipe.Steps[i]}\n";
+                display += $"Step {i + 1}. {recipe.Steps[i]}\n";
+            }
+
+            // Check if the total calories exceed 300 and invoke the CalorieAlertDelegate if necessary
+            if (CalculateTotalCalories(recipe) * scaleFactor > 300)
+            {
+                CalorieAlertDelegate alertDelegate = DisplayCalorieAlert;
+                alertDelegate.Invoke(CalculateTotalCalories(recipe) * scaleFactor);
             }
         }
 
+        Console.ForegroundColor = ConsoleColor.White;
         return display;
     }
 
@@ -363,6 +373,52 @@ public class RecipeManager
             else
             {
                 Console.WriteLine("Invalid input.");
+            }
+        }
+    }
+
+    // Delegate method to display calorie alert
+    public void DisplayCalorieAlert(double totalCalories)
+    {
+        Console.ForegroundColor = ConsoleColor.DarkRed;
+        Console.WriteLine($"\n\nTotal calories exceeded 300: {totalCalories} calories");
+        Console.ForegroundColor = ConsoleColor.White;
+    }
+
+    public void DeleteRecipe()
+    {
+        // Prompt the user to choose a recipe to delete
+        string chosenRecipe = RecipeNames();
+
+        if (!string.IsNullOrEmpty(chosenRecipe))
+        {
+            // Ask the user to confirm the deletion
+            Console.WriteLine($"Are you sure you want to delete the recipe '{chosenRecipe}'? (Y/N)");
+
+            // Read the user's key input
+            ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+            Console.WriteLine();
+
+            // Check the user's input
+            if (keyInfo.Key == ConsoleKey.Y)
+            {
+                // If the user confirms the deletion, remove the chosen recipe from the RecipeCollection
+                RecipeCollection.Remove(chosenRecipe);
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine($"Recipe '{chosenRecipe}' has been deleted.");
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+            else if (keyInfo.Key == ConsoleKey.N)
+            {
+                // If the user cancels the deletion, display a message
+                Console.WriteLine("Deletion canceled.");
+            }
+            else
+            {
+                // If the user provides an invalid input, display an error message
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("Invalid input. Deletion canceled.");
+                Console.ForegroundColor = ConsoleColor.White;
             }
         }
     }
