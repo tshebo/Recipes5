@@ -24,7 +24,7 @@ internal class Program
         Console.WriteLine("(2) Add steps");
         Console.WriteLine("(3) Display recipe ");
         Console.WriteLine("(4) Scale Recipe");
-        Console.WriteLine("(5) Clear Data ");
+        Console.WriteLine("(5) Delete Data ");
         Console.WriteLine("Any key to Exit");
 
         Console.ForegroundColor = ConsoleColor.Blue;
@@ -56,10 +56,10 @@ internal class Program
         else if (menu.Equals("3"))
         {
             // Display Recipe option
-            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("===== Display Recipe =====");
-            Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine(recipe.DisplayRecipe());
+            Console.ForegroundColor = ConsoleColor.White;
         }
         else if (menu.Equals("4"))
         {

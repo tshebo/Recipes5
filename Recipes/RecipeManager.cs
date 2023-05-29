@@ -18,6 +18,11 @@ public class RecipeManager
 
     public void AddIngredients()
     {
+        //Declarations and Object
+        Recipe recipe = new Recipe();
+        bool loop = true;
+        int i = 0;
+
         count = 0;
 
         // Prompt user to enter recipe name
@@ -26,11 +31,10 @@ public class RecipeManager
         string recipeName = Console.ReadLine();
         Console.ForegroundColor = ConsoleColor.White;
 
-        Recipe recipe = new Recipe();
         recipe.Name = recipeName;
 
-        bool loop = true;
-        int i = 0;
+        string group = FoodGroup();
+        recipe.Groups.Add(group);
 
         while (loop)
         {
@@ -47,7 +51,7 @@ public class RecipeManager
             bool validAmount = false;
             do
             {
-                // Prompt user to enter ingredient amount
+                // Prompt user to enter ingredient quantity
                 Console.Write($"Amount of {ingredientName}(s): \t\t");
                 Console.ForegroundColor = ConsoleColor.Blue;
                 string input = Console.ReadLine();
@@ -97,9 +101,6 @@ public class RecipeManager
                 }
             } while (!validCalories);
 
-            string group = FoodGroup();
-            recipe.Groups.Add(group);
-
             Console.Write("Press 'N' to stop adding or any other key to continue: \n");
             Console.ForegroundColor = ConsoleColor.Blue;
             // Check if the user wants to stop adding ingredients
@@ -122,6 +123,7 @@ public class RecipeManager
 
     public string FoodGroup()
     {
+        //Food Groups array
         string[] groups = {
             "Starchy",
             "Fruits and Veg",
@@ -140,6 +142,7 @@ public class RecipeManager
         while (!isValidInput)
         {
             Console.WriteLine("Food group:");
+
             // Display food groups for selection
             for (int i = 0; i < groups.Length; i++)
             {
@@ -150,7 +153,7 @@ public class RecipeManager
             input = Console.ReadLine();
             Console.ForegroundColor = ConsoleColor.White;
 
-            isValidInput = int.TryParse(input, out groupIndex);
+            isValidInput = int.TryParse(input, out groupIndex); //check for valid input
 
             if (!isValidInput || groupIndex < 1 || groupIndex > groups.Length)
             {
@@ -161,10 +164,11 @@ public class RecipeManager
             }
         }
 
-        output = groups[groupIndex - 1];
+        output = groups[groupIndex - 1]; //return the index of the group
         return output;
     }
 
+    //Displays the recipe names in ascending aphabetical order and accepting user input
     public string RecipeNames()
     {
         int index = 0;
@@ -180,6 +184,7 @@ public class RecipeManager
         {
             do
             {
+                //Display The Recipe Names in alphabetical order
                 int i = 0;
                 foreach (var recipe in sortedRecipes)
                 {
@@ -200,6 +205,7 @@ public class RecipeManager
                     }
                 }
 
+                //Error Message
                 Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.WriteLine("Enter the correct input.");
                 Console.ForegroundColor = ConsoleColor.White;
@@ -212,6 +218,7 @@ public class RecipeManager
             Console.ForegroundColor = ConsoleColor.White;
         }
 
+        //Return the user input if its valid
         if (validChoice)
         {
             chosen = sortedRecipes.ElementAt(index).Name;
@@ -254,7 +261,7 @@ public class RecipeManager
         }
     }
 
-    //calculate calories
+    //calculate calories  ---- Create a  Unit test
     public double CalculateTotalCalories(Recipe recipe)
     {
         double totalCalories = 0;
@@ -270,7 +277,9 @@ public class RecipeManager
     {
         string display = RecipeNames();
 
-        Console.ForegroundColor = ConsoleColor.Yellow;
+        // Console.ForegroundColor = ConsoleColor.Yellow;
+
+        // Console.ForegroundColor = ConsoleColor.Yellow;
 
         if (!string.IsNullOrEmpty(display))
         {
@@ -311,7 +320,7 @@ public class RecipeManager
             }
         }
 
-        Console.ForegroundColor = ConsoleColor.White;
+        //Console.ForegroundColor = ConsoleColor.White;
         return display;
     }
 
